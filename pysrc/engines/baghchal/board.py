@@ -2,7 +2,7 @@
 class IllegalMove(RuntimeError): pass
 
 class Position:
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         if x < 0 or x > 4:
             raise RuntimeError("illegal x position")
         if y < 0 or y > 4:
@@ -23,7 +23,7 @@ class Board:
         self.board[4][4] = 'T'
 
     def get(self, pos: Position) -> None | str:
-        val = self.board[pos.x][pos.y]
+        val = self.board[pos.y][pos.x]
         if val == ' ':
             return None
         else:
@@ -33,16 +33,16 @@ class Board:
         if val != 'T' and val != 'G':
             raise IllegalMove("{} is not a valid piece".format(val))
 
-        if self.board[pos.x][pos.y] == ' ':
-            self.board[pos.x][pos.y] = val
+        if self.board[pos.y][pos.x] == ' ':
+            self.board[pos.y][pos.x] = val
         else:
             raise IllegalMove("Cannot set {} to {}, already set to {}".format(
                                   pos, val, self.board[pos.x][pos.y]
                               ))
 
     def clear(self, pos: Position):
-        if self.board[pos.x][pos.y] != ' ':
-            self.board[pos.x][pos.y] = ' '
+        if self.board[pos.y][pos.x] != ' ':
+            self.board[pos.y][pos.x] = ' '
         else:
             raise IllegalMove("Cannot clear {}, already empty".format(pos))
 
@@ -95,9 +95,5 @@ class Board:
         if ydiff != 0 and ydiff != 2:
             return False
 
-        midpoint = Position((a.x+b.x)/2, (a.y+b.y)/2)
+        midpoint = Position((a.x+b.x)//2, (a.y+b.y)//2)
         return cls.connected(a, midpoint) and cls.connected(midpoint, b)
-
-
-b = Board()
-b.visualize()
