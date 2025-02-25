@@ -24,16 +24,29 @@ class TestPosition(unittest.TestCase):
 class TestBoard(unittest.TestCase):
 
     def test_connected(self):
-        self.assertTrue(Board._connected(Position(0,0), Position(1, 0)))
-        self.assertTrue(Board._connected(Position(0,0), Position(0, 1)))
-        self.assertTrue(Board._connected(Position(0,0), Position(1, 1)))
-        self.assertTrue(Board._connected(Position(0,2), Position(1, 3)))
+        self.assertTrue(Board.connected(Position(0,0), Position(1, 0)))
+        self.assertTrue(Board.connected(Position(0,0), Position(0, 1)))
+        self.assertTrue(Board.connected(Position(0,0), Position(1, 1)))
+        self.assertTrue(Board.connected(Position(0,2), Position(1, 3)))
 
     def test_notconnected(self):
-        self.assertFalse(Board._connected(Position(0, 0), Position(0, 2)))
-        self.assertFalse(Board._connected(Position(0, 0), Position(2, 0)))
-        self.assertFalse(Board._connected(Position(0, 0), Position(0, 0)))
-        self.assertFalse(Board._connected(Position(0, 1), Position(1, 0)))
+        self.assertFalse(Board.connected(Position(0, 0), Position(0, 2)))
+        self.assertFalse(Board.connected(Position(0, 0), Position(2, 0)))
+        self.assertFalse(Board.connected(Position(0, 0), Position(0, 0)))
+        self.assertFalse(Board.connected(Position(0, 1), Position(1, 0)))
+
+    def test_connectedjump(self):
+        self.assertTrue(Board.connected_jump(Position(0,0), Position(2, 0)))
+        self.assertTrue(Board.connected_jump(Position(0,0), Position(0, 2)))
+        self.assertTrue(Board.connected_jump(Position(0,0), Position(2, 2)))
+        self.assertTrue(Board.connected_jump(Position(0,2), Position(2, 0)))
+
+    def test_notconnectedjump(self):
+        self.assertFalse(Board.connected_jump(Position(0, 0), Position(1, 0)))
+        self.assertFalse(Board.connected_jump(Position(0, 0), Position(1, 2)))
+        self.assertFalse(Board.connected_jump(Position(0, 0), Position(0, 3)))
+        self.assertFalse(Board.connected_jump(Position(0, 0), Position(0, 0)))
+        self.assertFalse(Board.connected_jump(Position(1, 0), Position(3, 2)))
 
     def test_setValid(self):
         b = Board()

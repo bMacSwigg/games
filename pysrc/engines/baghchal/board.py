@@ -62,7 +62,7 @@ class Board:
         return '-'.join(row)
 
     @classmethod
-    def _connected(cls, a: Position, b: Position) -> bool:
+    def connected(cls, a: Position, b: Position) -> bool:
         xdiff = abs(a.x - b.x)
         ydiff = abs(a.y - b.y)
         if xdiff > 1 or ydiff > 1:
@@ -84,6 +84,19 @@ class Board:
             return True
         else:
             return False
+
+    @classmethod
+    def connected_jump(cls, a: Position, b: Position) -> bool:
+        xdiff = abs(a.x - b.x)
+        ydiff = abs(a.y - b.y)
+
+        if xdiff != 0 and xdiff != 2:
+            return False
+        if ydiff != 0 and ydiff != 2:
+            return False
+
+        midpoint = Position((a.x+b.x)/2, (a.y+b.y)/2)
+        return cls.connected(a, midpoint) and cls.connected(midpoint, b)
 
 
 b = Board()
