@@ -69,11 +69,23 @@ class BaghChal:
         self.board.set(t, 'G')
         self.turn += 1
 
-    def is_goat_turn(self):
+    def is_goat_turn(self) -> bool:
         return self.turn % 2 == 0
 
-    def can_goats_move(self):
+    def can_goats_move(self) -> bool:
         return self.turn >= NUM_GOATS * 2
+
+    def _tigers_stuck(self) -> bool:
+        return False
+
+    def winner(self) -> None | str:
+        if self.captures >= 5:
+            return 'TIGER'
+        elif self._tigers_stuck():
+            return 'GOAT'
+        else:
+            return None
+
 
 
 def parse_position(p: str) -> Position:
@@ -105,7 +117,7 @@ def tiger_turn(game: BaghChal):
 
 def run_cmd():
     game = BaghChal()
-    while True:
+    while game.winner() is None:
         game.board.visualize()
         try:
             if game.is_goat_turn():
@@ -114,6 +126,7 @@ def run_cmd():
                 tiger_turn(game)
         except IllegalMove as e:
             print(e)
+    print("{} wins!".format(game.winner()))
 
 
 if __name__ == '__main__':
