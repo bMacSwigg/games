@@ -10,8 +10,8 @@ from pysrc.server.thirdparty.middleware import jwt_authenticated
 # Initialize Flask app
 app = Flask(__name__)
 _ORIGINS = ["http://localhost:4200",
-            "https://library-ui-869102415447.us-central1.run.app",
-            "https://library.mcswiggen.me"]
+            "https://games-869102415447.us-central1.run.app",
+            "https://games.mcswiggen.me"]
 CORS(app, resources={r"*": {"origins": _ORIGINS}})
 
 # Uses application default credentials, so only works on GCP
