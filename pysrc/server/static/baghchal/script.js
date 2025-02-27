@@ -15,7 +15,6 @@ function signInPage() {
 
 async function mainPage() {
   document.getElementById('signInButton').innerText = 'Sign Out';
-  document.getElementById('list-games').style.display = '';
   document.getElementById('play-game').style.display = 'none';
 
   const games = await (await listGames()).json()
@@ -27,13 +26,15 @@ async function mainPage() {
     row.insertCell(1).innerHTML = game.goat
     row.insertCell(2).innerHTML = `<button onclick="gamePage('${game.id}')">Play!</button>`
   }
+
+  document.getElementById('list-games').style.display = '';
 }
 
-function gamePage(id) {
+async function gamePage(id) {
   document.getElementById('list-games').style.display = 'none';
-  document.getElementById('play-game').style.display = '';
   game_id = id
-  refreshGame()
+  await refreshGame()
+  document.getElementById('play-game').style.display = '';
 }
 
 // Watch for state change from sign in
@@ -96,11 +97,6 @@ async function displayGame() {
 async function refreshGame() {
   const canvas = document.getElementById("game")
   const json = await (await getGame()).json()
-//  const json = {
-//    board: [["T","G"," "," ","T"],[" "," "," ","G","G"],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]],
-//    turn: 8,
-//    captures: 0
-//  }
 
   game = new Game(canvas, json.board, json.turn, json.captures)
   game.display()
