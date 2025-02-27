@@ -1,6 +1,6 @@
 import unittest
 
-from pysrc.engines.baghchal.board import Board, Position, IllegalMove
+from pysrc.engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
 
 
 class TestPosition(unittest.TestCase):
@@ -77,6 +77,44 @@ class TestBoard(unittest.TestCase):
         self.assertEqual(b.get(Position(0, 1)), 'G')
         self.assertIsNone(b.get(Position(0, 4)))
         self.assertIsNone(b.get(Position(2, 2)))
+
+class TestStatics(unittest.TestCase):
+
+    def test_movable_center(self):
+        pos = Position(2, 2)
+
+        res = movable_positions(pos)
+
+        expected = [Position(1, 1), Position(2, 1), Position(3, 1),
+                    Position(1, 2), Position(3, 2),
+                    Position(1, 3), Position(2, 3), Position(3, 3)]
+        self.assertCountEqual(res, expected)
+
+    def test_movable_edge(self):
+        pos = Position(0, 1)
+
+        res = movable_positions(pos)
+
+        expected = [Position(0, 0), Position(1, 1), Position(0, 2)]
+        self.assertCountEqual(res, expected)
+
+    def test_jumpable_center(self):
+        pos = Position(2, 2)
+
+        res = jumpable_positions(pos)
+
+        expected = [Position(0, 0), Position(2, 0), Position(4, 0),
+                    Position(0, 2), Position(4, 2),
+                    Position(0, 4), Position(2, 4), Position(4, 4)]
+        self.assertCountEqual(res, expected)
+
+    def test_jumpable_edge(self):
+        pos = Position(0, 1)
+
+        res = jumpable_positions(pos)
+
+        expected = [Position(2, 1), Position(0, 3)]
+        self.assertCountEqual(res, expected)
 
 
 if __name__ == '__main__':

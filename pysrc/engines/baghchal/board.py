@@ -1,7 +1,12 @@
+from dataclasses import dataclass
+
 from pysrc.engines.baghchal.game_state import initial_board
+
 
 class IllegalMove(RuntimeError): pass
 
+
+@dataclass
 class Position:
     def __init__(self, x: int, y: int):
         if x < 0 or x > 4:
@@ -13,6 +18,7 @@ class Position:
 
     def __str__(self):
         return "({},{})".format(self.x, self.y)
+
 
 class Board:
 
@@ -97,3 +103,56 @@ class Board:
 
         midpoint = Position((a.x+b.x)//2, (a.y+b.y)//2)
         return cls.connected(a, midpoint) and cls.connected(midpoint, b)
+
+
+def movable_positions(pos: Position) -> list[Position]:
+    positions = []
+
+    # horizontal/vertical connections
+    if pos.x > 0:
+        positions.append(Position(pos.x-1, pos.y))
+    if pos.x < 4:
+        positions.append(Position(pos.x+1, pos.y))
+    if pos.y > 0:
+        positions.append(Position(pos.x, pos.y-1))
+    if pos.y < 4:
+        positions.append(Position(pos.x, pos.y+1))
+
+    # diagonal connections
+    if (pos.x + pos.y) % 2 == 0:
+        if pos.x > 0 and pos.y > 0:
+            positions.append(Position(pos.x-1, pos.y-1))
+        if pos.x > 0 and pos.y < 4:
+            positions.append(Position(pos.x-1, pos.y+1))
+        if pos.x < 4 and pos.y > 0:
+            positions.append(Position(pos.x+1, pos.y-1))
+        if pos.x < 4 and pos.y < 4:
+            positions.append(Position(pos.x+1, pos.y+1))
+
+    return positions
+
+def jumpable_positions(pos: Position) -> list[Position]:
+    positions = []
+
+    # horizontal/vertical connections
+    if pos.x > 1:
+        positions.append(Position(pos.x-2, pos.y))
+    if pos.x < 3:
+        positions.append(Position(pos.x+2, pos.y))
+    if pos.y > 1:
+        positions.append(Position(pos.x, pos.y-2))
+    if pos.y < 3:
+        positions.append(Position(pos.x, pos.y+2))
+
+    # diagonal connections
+    if (pos.x + pos.y) % 2 == 0:
+        if pos.x > 1 and pos.y > 1:
+            positions.append(Position(pos.x-2, pos.y-2))
+        if pos.x > 1 and pos.y < 3:
+            positions.append(Position(pos.x-2, pos.y+2))
+        if pos.x < 3 and pos.y > 1:
+            positions.append(Position(pos.x+2, pos.y-2))
+        if pos.x < 3 and pos.y < 3:
+            positions.append(Position(pos.x+2, pos.y+2))
+
+    return positions
