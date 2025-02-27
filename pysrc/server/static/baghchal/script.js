@@ -1,4 +1,3 @@
-
 const config = {
   apiKey: "AIzaSyAMfrocCYIR9411DpaEYbvHI3mEweM1JwE",
   authDomain: "run-web.firebaseapp.com",
@@ -66,80 +65,6 @@ function toggle() {
   } else {
     signOut();
   }
-}
-
-
-function drawBoard(ctx) {
-  ctx.fillStyle = "#000000";
-  // horizontal connections
-  for (let y = 0; y < 5; y++) {
-    const yoffset = y * 100 + 23
-    for(let x = 0; x < 4; x++) {
-      const xoffset = x * 100 + 55
-      ctx.fillRect(xoffset, yoffset, 40, 4);
-    }
-  }
-
-  // vertical connections
-  for (let y = 0; y < 4; y++) {
-    const yoffset = y * 100 + 55
-    for(let x = 0; x < 5; x++) {
-      const xoffset = x * 100 + 23
-      ctx.fillRect(xoffset, yoffset, 4, 40);
-    }
-  }
-
-  // diagonal connections
-  for (let y = 0; y < 4; y++) {
-    const yoffset = y * 100 + 73
-    const ycenter = yoffset+2
-    for(let x = 0; x < 4; x++) {
-      const xoffset = x * 100 + 45
-      const xcenter = xoffset+30
-
-      ctx.translate(xcenter, ycenter)
-      if ((x+y) % 2 === 0) {
-        ctx.rotate(Math.PI / 4)
-      } else {
-        ctx.rotate(3 * Math.PI / 4)
-      }
-      ctx.translate(-xcenter, -ycenter)
-
-      ctx.fillRect(xoffset, yoffset, 60, 4);
-
-      ctx.resetTransform()
-    }
-  }
-}
-
-function drawPieces(ctx, board) {
-  for(let y = 0; y < 5; y++) {
-    const yoffset = y * 100 + 10
-    for(let x = 0; x < 5; x++) {
-      const piece = board[y][x]
-      if (piece === ' ') {
-        continue;
-      }
-
-      const xoffset = x * 100 + 10
-      if (piece === 'T') {
-        // draw tiger
-        ctx.fillStyle = "#FF0000"
-      } else if (piece === 'G') {
-        // draw goat
-        ctx.fillStyle = "#0000FF"
-      }
-      ctx.fillRect(xoffset, yoffset, 30, 30)
-    }
-  }
-}
-
-async function displayGame() {
-  const game = await getGame()
-  const ctx = document.getElementById("game").getContext("2d");
-
-  drawBoard(ctx)
-  drawPieces(ctx, (await game.json()).board)
 }
 
 async function requestWrapper(doRequest) {

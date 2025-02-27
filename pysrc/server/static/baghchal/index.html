@@ -6,7 +6,9 @@
   <script src="https://www.gstatic.com/firebasejs/8.0/firebase-app.js"></script>
   <!-- Firebase auth-->
   <script src="https://www.gstatic.com/firebasejs/8.0/firebase-auth.js"></script>
-  <script src="/static/baghchal/script.js"></script>
+  <!-- TODO: change back -->
+  <script src="./script.js"></script>
+  <script src="./game.js"></script>
   <style>
     canvas {
       background: #eee;
@@ -25,6 +27,9 @@
     </div>
     <div class="section" id="display">
       <canvas id="game" width=450 height=450></canvas>
+      <button onclick="game.play()">Play</button><br/>
+      <h3>Turn: <span id="turn"></span></h3>
+      <h3>Captures: <span id="captures"></span></h3>
     </div>
   </div>
 </body>
