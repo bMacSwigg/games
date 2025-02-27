@@ -11,7 +11,7 @@ class BaghChal:
             self.turn = 0
             self.captures = 0
         else:
-            self.board = state.board
+            self.board = Board(state.board)
             self.turn = state.turn
             self.captures = state.captures
 
