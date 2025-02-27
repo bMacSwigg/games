@@ -35,6 +35,7 @@ class Game {
     this.board = board
     this.turn = turn
     this.captures = captures
+    this.selected.clear()
   }
 
   #addClickListener() {
