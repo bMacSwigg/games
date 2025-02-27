@@ -1,4 +1,4 @@
-from engines.baghchal.game_state import GameState
+from engines.baghchal.game_state import GameState, deserialize
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from firebase_admin import auth, credentials, firestore, initialize_app
@@ -20,7 +20,7 @@ db = firestore.client()
 
 
 def _parse_game(data: DocumentSnapshot) -> dict:
-    game_state = GameState(data.get("game_state"))
+    game_state = deserialize(data.get("game_state"))
     tiger = data.get("tiger")
     goat = data.get("goat")
     return {"id": data.id, "board": game_state.board, "turn": game_state.turn,
