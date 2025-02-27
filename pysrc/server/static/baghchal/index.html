@@ -27,14 +27,14 @@
 </head>
 <body>
   <button id="signInButton" onclick="toggle()">Sign in</button>
-  <div class="section" id="list-games">
+  <div class="section" id="list-games" style="display:none">
     <table id="games-table"></table>
     <h1>New Game</h1>
     Tiger: <input type="text" id="creategame-tiger"><br/>
     Goat: <input type="text" id="creategame-goat"><br/>
     <button onclick="newGame()">Create</button>
   </div>
-  <div class="section" id="play-game">
+  <div class="section" id="play-game" style="display:none">
     <button onclick="mainPage()">Return to List</button>
     <div class="section" id="getgame">
       Game ID: <input type="text" id="getgame-id">
