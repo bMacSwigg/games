@@ -139,7 +139,7 @@ async function displayGame() {
   const ctx = document.getElementById("game").getContext("2d");
 
   drawBoard(ctx)
-  drawPieces(ctx, game.json().board)
+  drawPieces(ctx, (await game.json()).board)
 }
 
 async function requestWrapper(doRequest) {
