@@ -105,6 +105,24 @@ async function getGame() {
   document.getElementById('getgame-output').innerText = text;
 }
 
+async function move() {
+  const game_id = document.getElementById('move-id').value;
+  const selected = [
+    document.getElementById('pos1').value,
+    document.getElementById('pos2').value
+  ]
+  const text = await requestWrapper(token =>
+    fetch(`/v0/games/baghchal/${game_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(selected),
+    }));
+  document.getElementById('move-output').innerText = text;
+}
+
 async function listGames() {
   const text = await requestWrapper(token =>
     fetch('/v0/games/baghchal', {

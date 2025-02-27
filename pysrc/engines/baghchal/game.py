@@ -103,3 +103,6 @@ class BaghChal:
             return 'GOAT'
         else:
             return None
+
+    def game_state(self):
+        return GameState(self.board.board, self.turn, self.captures)
