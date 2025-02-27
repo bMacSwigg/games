@@ -1,4 +1,4 @@
-from pysrc.engines.baghchal.board import Board, Position, IllegalMove
+from pysrc.engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
 
 NUM_GOATS = 20
 
@@ -76,7 +76,19 @@ class BaghChal:
         return self.turn >= NUM_GOATS * 2
 
     def _tigers_stuck(self) -> bool:
-        return False
+        tigers = []
+        for x in range(5):
+            for y in range(5):
+                pos = Position(x, y)
+                if self.board.get(pos) == 'T':
+                    tigers.append(pos)
+        moves = {pos for tiger in tigers for pos in movable_positions(tiger)}
+        jumps = {pos for tiger in tigers for pos in jumpable_positions(tiger)}
+
+        for pos in moves.union(jumps):
+            if self.board.get(pos) is None:
+                return False
+        return True
 
     def winner(self) -> None | str:
         if self.captures >= 5:
