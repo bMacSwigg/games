@@ -110,6 +110,11 @@ async function playMove() {
   game.display()
 }
 
+async function newGame() {
+  const id = await createGame()
+  await gamePage(id)
+}
+
 async function requestWrapper(doRequest) {
   if (firebase.auth().currentUser) {
     // Retrieve JWT to identify the user to the Identity Platform service.
@@ -156,5 +161,21 @@ async function listGames() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }));
+}
+
+async function createGame() {
+  const game = {
+    tiger: document.getElementById('creategame-tiger').value,
+    goat: document.getElementById('creategame-goat').value,
+  }
+  return requestWrapper(token =>
+    fetch('/v0/games/baghchal', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(game),
     }));
 }
