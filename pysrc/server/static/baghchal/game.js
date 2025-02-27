@@ -42,8 +42,8 @@ class Game {
     const self = this
 
     this.canvas.addEventListener('click', function(event) {
-      const canvasLeft = this.canvas.offsetLeft + this.canvas.clientLeft
-      const canvasTop = this.canvas.offsetTop + this.canvas.clientTop
+      const canvasLeft = self.canvas.offsetLeft + self.canvas.clientLeft
+      const canvasTop = self.canvas.offsetTop + self.canvas.clientTop
       const x = event.pageX - canvasLeft
       const y = event.pageY - canvasTop
 
