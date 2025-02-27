@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang=en>
+<head>
+  <title>Library</title>
+  <!-- Firebase core (must come before other firebase scripts) -->
+  <script src="https://www.gstatic.com/firebasejs/8.0/firebase-app.js"></script>
+  <!-- Firebase auth-->
+  <script src="https://www.gstatic.com/firebasejs/8.0/firebase-auth.js"></script>
+  <script src="/static/script.js"></script>
+</head>
+<body>
+  <button id="signInButton" onclick="toggle()">Sign in</button>
+  <div class="section" id="actions">
+    <div class="section" id="getgame">
+      <h1>Get Game</h1>
+      ISBN: <input type="text" id="getgame-id"><br/>
+      <button onclick="getGame()">Run</button><br/>
+      <h3>Output:</h3>
+      <div id="getgame-output"></div>
+    </div>
+    <div class="section" id="listgames">
+      <h1>List Games</h1>
+      <button onclick="listGames()">Run</button><br/>
+      <h3>Output:</h3>
+      <div id="listgames-output"></div>
+    </div>
+    <div class="section" id="creategame">
+      <h1>Create Game</h1>
+      Tiger: <input type="text" id="creategame-tiger"><br/>
+      Goat: <input type="text" id="creategame-goat"><br/>
+      <button onclick="createGame()">Run</button>
+      <div id="creategame-output"></div>
+    </div>
+  </div>
+</body>
+</html>
