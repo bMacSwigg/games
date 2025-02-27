@@ -158,8 +158,8 @@ class Game {
   }
 
   #drawWinner() {
-    this.ctx.globalAlpha = 0.3
-    this.ctx.fillStyle = "#999999"
+    this.ctx.globalAlpha = 0.6
+    this.ctx.fillStyle = "#FFFFFF"
     this.ctx.fillRect(0, 0, 450, 450)
 
     this.ctx.globalAlpha = 1.0
@@ -170,6 +170,7 @@ class Game {
     }
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'middle'
+    this.ctx.font = '50px serif'
     this.ctx.fillText(`${this.winner} wins!`, 225, 225)
   }
 
