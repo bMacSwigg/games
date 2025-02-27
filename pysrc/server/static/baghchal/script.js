@@ -111,7 +111,7 @@ async function playMove() {
 }
 
 async function newGame() {
-  const id = await createGame()
+  const id = (await createGame()).body
   await gamePage(id)
 }
 
