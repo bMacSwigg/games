@@ -118,7 +118,7 @@ async function move() {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(selected),
+      body: JSON.stringify({selected: selected}),
     }));
   document.getElementById('move-output').innerText = text;
 }
