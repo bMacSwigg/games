@@ -25,8 +25,10 @@ def _parse_game(data: DocumentSnapshot) -> dict:
     game_state = deserialize(data.get("game_state"))
     tiger = data.get("tiger")
     goat = data.get("goat")
+    winner = BaghChal(game_state).winner()
     return {"id": data.id, "board": game_state.board, "turn": game_state.turn,
-            "captures": game_state.captures, "tiger": tiger, "goat": goat}
+            "captures": game_state.captures, "tiger": tiger, "goat": goat,
+            "winner": winner}
 
 @app.route('/v0/games/baghchal/<game_id>', methods=['GET'])
 @jwt_authenticated
@@ -95,6 +97,7 @@ def move(game_id: str):
         game["board"] = baghchal.game_state().board
         game["turn"] = baghchal.game_state().turn
         game["captures"] = baghchal.game_state().captures
+        game["winner"] = baghchal.winner()
         return jsonify(game), 200
 
 @app.route('/v0/games/baghchal', methods=['POST'])
