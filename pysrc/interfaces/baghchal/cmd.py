@@ -1,5 +1,5 @@
-from pysrc.engines.baghchal.board import IllegalMove, Position, Board
-from pysrc.engines.baghchal.game import BaghChal
+from engines.baghchal.board import IllegalMove, Position, Board
+from engines.baghchal.game import BaghChal
 
 
 def parse_position(p: str) -> Position:

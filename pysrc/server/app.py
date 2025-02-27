@@ -5,8 +5,7 @@ from firebase_admin import auth, credentials, firestore, initialize_app
 from google.cloud.firestore_v1 import DocumentSnapshot, FieldFilter, Or
 import os
 
-from pysrc.server.thirdparty.middleware import jwt_authenticated
-
+from server.thirdparty.middleware import jwt_authenticated
 
 # Initialize Flask app
 app = Flask(__name__)

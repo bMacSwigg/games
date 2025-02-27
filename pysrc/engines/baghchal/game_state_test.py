@@ -1,6 +1,6 @@
 import unittest
 
-from pysrc.engines.baghchal.game_state import GameState, deserialize
+from engines.baghchal.game_state import GameState, deserialize
 
 
 class TestGameState(unittest.TestCase):

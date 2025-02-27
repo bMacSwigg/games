@@ -1,20 +1,21 @@
 from dataclasses import dataclass
 
-from pysrc.engines.baghchal.game_state import initial_board
+from engines.baghchal.game_state import initial_board
 
 
 class IllegalMove(RuntimeError): pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class Position:
-    def __init__(self, x: int, y: int):
-        if x < 0 or x > 4:
+    x: int
+    y: int
+
+    def __post_init__(self):
+        if self.x < 0 or self.x > 4:
             raise RuntimeError("illegal x position")
-        if y < 0 or y > 4:
+        if self.y < 0 or self.y > 4:
             raise RuntimeError("illegal y position")
-        self.x = x
-        self.y = y
 
     def __str__(self):
         return "({},{})".format(self.x, self.y)

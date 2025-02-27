@@ -1,5 +1,5 @@
-from pysrc.engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
-from pysrc.engines.baghchal.game_state import GameState
+from engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
+from engines.baghchal.game_state import GameState
 
 NUM_GOATS = 20
 

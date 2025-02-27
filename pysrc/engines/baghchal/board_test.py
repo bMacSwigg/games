@@ -1,6 +1,6 @@
 import unittest
 
-from pysrc.engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
+from engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
 
 
 class TestPosition(unittest.TestCase):
