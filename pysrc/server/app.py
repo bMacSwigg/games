@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from firebase_admin import auth, credentials, firestore, initialize_app
 from google.cloud.firestore_v1 import DocumentSnapshot, FieldFilter, Or
+import os
 
 from pysrc.server.thirdparty.middleware import jwt_authenticated
 
@@ -77,3 +78,7 @@ def list_games():
     ).get()
     ret = list(map(_parse_game, games))
     return jsonify(ret), 200
+
+port = int(os.environ.get('PORT', 8080))
+if __name__ == '__main__':
+    app.run(threaded=True, host='0.0.0.0', port=port)
