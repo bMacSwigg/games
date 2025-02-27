@@ -1,4 +1,4 @@
-def _initial_board() -> list[list[str]]:
+def initial_board() -> list[list[str]]:
     board = [[' '] * 5 for i in range(5)]
     board[0][0] = 'T'
     board[4][0] = 'T'
@@ -10,7 +10,7 @@ class GameState:
 
     def __init__(self, board: list[list[str]] = None, turn: int = 0, captured: int = 0):
         if board is None:
-            board = _initial_board()
+            board = initial_board()
         self.board = board
         self.turn = turn
         self.captured = captured

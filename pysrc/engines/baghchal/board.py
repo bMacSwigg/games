@@ -1,3 +1,4 @@
+from pysrc.engines.baghchal.game_state import initial_board
 
 class IllegalMove(RuntimeError): pass
 
@@ -15,12 +16,11 @@ class Position:
 
 class Board:
 
-    def __init__(self):
-        self.board = [[' '] * 5 for i in range(5)]
-        self.board[0][0] = 'T'
-        self.board[4][0] = 'T'
-        self.board[0][4] = 'T'
-        self.board[4][4] = 'T'
+    def __init__(self, board: list[list[str]] = None):
+        if board is None:
+            self.board = initial_board()
+        else:
+            self.board = board
 
     def get(self, pos: Position) -> None | str:
         val = self.board[pos.y][pos.x]
