@@ -92,7 +92,10 @@ def move(game_id: str):
     else:
         new_state = {"game_state": baghchal.game_state().serialize()}
         doc.update(new_state)
-        return jsonify(new_state), 200
+        game["board"] = baghchal.game_state().board
+        game["turn"] = baghchal.game_state().turn
+        game["captures"] = baghchal.game_state().captures
+        return jsonify(game), 200
 
 @app.route('/v0/games/baghchal', methods=['POST'])
 @jwt_authenticated
