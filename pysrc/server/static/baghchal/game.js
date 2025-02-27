@@ -1,14 +1,12 @@
-var game
-
 class Game {
 
-  constructor(canvas, board) {
+  constructor(canvas, board, turn = 0, captures = 0) {
     this.canvas = canvas
     this.ctx = canvas.getContext("2d");
-    this.board = board
     this.displayed = false
-    this.turn = 0
-    this.captures = 0
+    this.board = board
+    this.turn = turn
+    this.captures = captures
     this.selected = new Set()
   }
 
@@ -29,37 +27,14 @@ class Game {
     this.ctx.clearRect(0, 0, 450, 450)
   }
 
-  // This method does very limited validation on the moves. Generally, this relies on
-  // the API to tell it whether a move is valid or not, and what the consequences are.
-  // The only check here is basically that the right number of spaces were selected.
-  play() {
-    if (this.turn % 2 === 0 && this.turn < 40) {
-      // goat turn to place
-      if (this.selected.size !== 1) {
-        console.log("Must have exactly one square selected")
-        return
-      }
+  getSelected() {
+    return [...this.selected]
+  }
 
-      const pos = this.#parsePos([...this.selected][0])
-      this.board[pos[1]][pos[0]] = 'G'
-    } else {
-      // goat or tiger turn to move
-      if (this.selected.size !== 2) {
-        console.log("Must have exactly two squares selected")
-        return
-      }
-
-      const pos1 = this.#parsePos([...this.selected][0])
-      const pos2 = this.#parsePos([...this.selected][1])
-      const tmp = this.board[pos1[1]][pos1[0]]
-      this.board[pos1[1]][pos1[0]] = this.board[pos2[1]][pos2[0]]
-      this.board[pos2[1]][pos2[0]] = tmp
-    }
-
-    // assuming successful, increment the turn counter
-    this.turn++
-    this.selected.clear()
-    this.display()
+  updateState(board, turn, captures) {
+    this.board = board
+    this.turn = turn
+    this.captures = captures
   }
 
   #addClickListener() {
@@ -176,14 +151,4 @@ class Game {
     const vals = pos.split(',')
     return [parseInt(vals[0]), parseInt(vals[1])]
   }
-}
-
-async function displayGame() {
-  // const game = await getGame()
-  const canvas = document.getElementById("game")
-  // board = (await game.json()).board
-  board = [["T","G"," "," ","T"],[" "," "," ","G","G"],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]]
-
-  game = new Game(canvas, board)
-  game.display()
 }

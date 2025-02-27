@@ -4,6 +4,8 @@ const config = {
 };
 firebase.initializeApp(config);
 
+let game, game_id
+
 // Display functions
 function signInPage() {
   document.getElementById('signInButton').innerText = 'Sign In';
@@ -67,6 +69,23 @@ function toggle() {
   }
 }
 
+async function displayGame() {
+  const canvas = document.getElementById("game")
+  const json = await (await getGame()).json()
+  // board = [["T","G"," "," ","T"],[" "," "," ","G","G"],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]]
+
+  game = new Game(canvas, json.board, json.turn, json.captures)
+  game.display()
+}
+
+async function playMove() {
+  // TODO: add validation
+  const selected = game.getSelected()
+  const newState = await (await move(selected)).json()
+  game.updateState(newState.board, newState.turn, newState.captures)
+  game.display()
+}
+
 async function requestWrapper(doRequest) {
   if (firebase.auth().currentUser) {
     // Retrieve JWT to identify the user to the Identity Platform service.
@@ -85,13 +104,25 @@ async function requestWrapper(doRequest) {
 }
 
 async function getGame() {
-  const game_id = document.getElementById('getgame-id').value;
+  game_id = document.getElementById('getgame-id').value;
   return requestWrapper(token =>
     fetch(`/v0/games/baghchal/${game_id}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    }));
+}
+
+async function move(selected) {
+  return requestWrapper(token =>
+    fetch(`/v0/games/baghchal/${game_id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({selected: selected}),
     }));
 }
 
