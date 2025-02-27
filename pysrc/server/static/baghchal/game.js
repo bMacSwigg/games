@@ -1,12 +1,13 @@
 class Game {
 
-  constructor(canvas, board, turn = 0, captures = 0) {
+  constructor(canvas, board, turn = 0, captures = 0, winner = null) {
     this.canvas = canvas
     this.ctx = canvas.getContext("2d");
     this.displayed = false
     this.board = board
     this.turn = turn
     this.captures = captures
+    this.winner = winner
     this.selected = new Set()
   }
 
@@ -16,6 +17,9 @@ class Game {
     this.#drawSelected()
     this.#drawPieces()
     this.#updateMetadata()
+    if (this.winner != null) {
+      this.#drawWinner()
+    }
 
     if (!this.displayed) {
       this.#addClickListener()
@@ -31,10 +35,11 @@ class Game {
     return [...this.selected]
   }
 
-  updateState(board, turn, captures) {
+  updateState(board, turn, captures, winner = null) {
     this.board = board
     this.turn = turn
     this.captures = captures
+    this.winner = winner
     this.selected.clear()
   }
 
@@ -42,6 +47,10 @@ class Game {
     const self = this
 
     this.canvas.addEventListener('click', function(event) {
+      if (self.winner != null) {
+        return
+      }
+
       const canvasLeft = self.canvas.offsetLeft + self.canvas.clientLeft
       const canvasTop = self.canvas.offsetTop + self.canvas.clientTop
       const x = event.pageX - canvasLeft
@@ -146,6 +155,22 @@ class Game {
       const yoffset = xy[1] * 100 + 6
       this.ctx.fillRect(xoffset, yoffset, 38, 38)
     }
+  }
+
+  #drawWinner() {
+    this.ctx.globalAlpha = 0.3
+    this.ctx.fillStyle = "#999999"
+    this.ctx.fillRect(0, 0, 450, 450)
+
+    this.ctx.globalAlpha = 1.0
+    if (this.winner === 'TIGER') {
+      this.ctx.fillStyle = "#FF0000"
+    } else {
+      this.ctx.fillStyle = "#0000FF"
+    }
+    this.ctx.textAlign = 'center'
+    this.ctx.textBaseline = 'middle'
+    this.ctx.fillText(`${winner} wins!`, 225, 225)
   }
 
   #parsePos(pos) {

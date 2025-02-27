@@ -16,6 +16,8 @@ class BaghChal:
             self.captures = state.captures
 
     def tiger_move(self, s: Position, t: Position):
+        if self.winner() is not None:
+            raise IllegalMove("This game has ended")
         if self.is_goat_turn():
             raise IllegalMove("Not Tiger's turn")
         if not Board.connected(s, t):
@@ -30,6 +32,8 @@ class BaghChal:
         self.turn += 1
 
     def tiger_jump(self, s: Position, t: Position):
+        if self.winner() is not None:
+            raise IllegalMove("This game has ended")
         if self.is_goat_turn():
             raise IllegalMove("Not Tiger's turn")
         if not Board.connected_jump(s, t):
@@ -49,6 +53,8 @@ class BaghChal:
         self.turn += 1
 
     def goat_place(self, pos: Position):
+        if self.winner() is not None:
+            raise IllegalMove("This game has ended")
         if not self.is_goat_turn():
             raise IllegalMove("Not Goat's turn")
         if self.can_goats_move():
@@ -60,6 +66,8 @@ class BaghChal:
         self.turn += 1
 
     def goat_move(self, s: Position, t: Position):
+        if self.winner() is not None:
+            raise IllegalMove("This game has ended")
         if not self.is_goat_turn():
             raise IllegalMove("Not Goat's turn")
         if not self.can_goats_move():

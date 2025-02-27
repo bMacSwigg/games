@@ -98,15 +98,19 @@ async function refreshGame() {
   const canvas = document.getElementById("game")
   const json = await (await getGame()).json()
 
-  game = new Game(canvas, json.board, json.turn, json.captures)
+  game = new Game(canvas, json.board, json.turn, json.captures, json.winner)
   game.display()
 }
 
 async function playMove() {
+  if (game.winner !== null) {
+    return
+  }
+
   // TODO: add validation
   const selected = game.getSelected()
   const newState = await (await move(selected)).json()
-  game.updateState(newState.board, newState.turn, newState.captures)
+  game.updateState(newState.board, newState.turn, newState.captures, newState.winner)
   game.display()
 }
 
