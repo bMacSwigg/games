@@ -170,7 +170,7 @@ class Game {
     }
     this.ctx.textAlign = 'center'
     this.ctx.textBaseline = 'middle'
-    this.ctx.fillText(`${winner} wins!`, 225, 225)
+    this.ctx.fillText(`${this.winner} wins!`, 225, 225)
   }
 
   #parsePos(pos) {
