@@ -14,22 +14,34 @@
       background: #eee;
       display: block;
       margin: 0 auto;
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
+
+    .container {
+      width: 450px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
     }
   </style>
 </head>
 <body>
   <button id="signInButton" onclick="toggle()">Sign in</button>
-  <div class="section" id="actions">
+  <div class="section" id="list-games">
+    <table id="games-table"></table>
+  </div>
+  <div class="section" id="play-game">
+    <button onclick="mainPage()">Return to List</button>
     <div class="section" id="getgame">
-      <h1>Get Game</h1>
-      Game ID: <input type="text" id="getgame-id"><br/>
+      Game ID: <input type="text" id="getgame-id">
       <button onclick="displayGame()">Display</button><br/>
     </div>
-    <div class="section" id="display">
-      <canvas id="game" width=450 height=450></canvas>
-      <button onclick="playMove()">Play</button><br/>
+    <div class="container" id="display">
       <h3>Turn: <span id="turn"></span></h3>
       <h3>Captures: <span id="captures"></span></h3>
+      <canvas id="game" width=450 height=450></canvas>
+      <button onclick="refreshGame()">Refresh</button>
+      <button onclick="playMove()">Play</button>
     </div>
   </div>
 </body>

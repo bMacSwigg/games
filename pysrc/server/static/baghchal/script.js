@@ -9,12 +9,31 @@ let game, game_id
 // Display functions
 function signInPage() {
   document.getElementById('signInButton').innerText = 'Sign In';
-  document.getElementById('actions').style.display = 'none';
+  document.getElementById('list-games').style.display = 'none';
+  document.getElementById('play-game').style.display = 'none';
 }
 
-function mainPage() {
+async function mainPage() {
   document.getElementById('signInButton').innerText = 'Sign Out';
-  document.getElementById('actions').style.display = '';
+  document.getElementById('list-games').style.display = '';
+  document.getElementById('play-game').style.display = 'none';
+
+  const games = await (await listGames()).json()
+  const elem = document.getElementById('games-table')
+  elem.innerHTML = "<tr><th>Tiger</th><th>Goat</th></tr>"
+  for (const [i, game] of games.entries()) {
+    const row = elem.insertRow(i+1)
+    row.insertCell(0).innerHTML = game.tiger
+    row.insertCell(1).innerHTML = game.goat
+    row.insertCell(2).innerHTML = `<button onclick="gamePage('${game.id}')">Play!</button>`
+  }
+}
+
+function gamePage(id) {
+  document.getElementById('list-games').style.display = 'none';
+  document.getElementById('play-game').style.display = '';
+  game_id = id
+  refreshGame()
 }
 
 // Watch for state change from sign in
@@ -70,9 +89,18 @@ function toggle() {
 }
 
 async function displayGame() {
+  game_id = document.getElementById('getgame-id').value;
+  await refreshGame()
+}
+
+async function refreshGame() {
   const canvas = document.getElementById("game")
   const json = await (await getGame()).json()
-  // board = [["T","G"," "," ","T"],[" "," "," ","G","G"],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]]
+//  const json = {
+//    board: [["T","G"," "," ","T"],[" "," "," ","G","G"],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]],
+//    turn: 8,
+//    captures: 0
+//  }
 
   game = new Game(canvas, json.board, json.turn, json.captures)
   game.display()
@@ -104,7 +132,6 @@ async function requestWrapper(doRequest) {
 }
 
 async function getGame() {
-  game_id = document.getElementById('getgame-id').value;
   return requestWrapper(token =>
     fetch(`/v0/games/baghchal/${game_id}`, {
       method: 'GET',
@@ -126,3 +153,12 @@ async function move(selected) {
     }));
 }
 
+async function listGames() {
+  return requestWrapper(token =>
+    fetch('/v0/games/baghchal', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }));
+}
