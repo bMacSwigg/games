@@ -67,7 +67,7 @@ def create_game():
 @jwt_authenticated
 def list_games():
     user = auth.get_user(request.uid).email.lower()
-    games = db.where(
+    games = db.collection('baghchal').where(
         filter=Or(
             [
                 FieldFilter("tiger", "==", user),
