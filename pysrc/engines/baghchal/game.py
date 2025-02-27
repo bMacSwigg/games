@@ -1,13 +1,19 @@
 from pysrc.engines.baghchal.board import Board, Position, IllegalMove, movable_positions, jumpable_positions
+from pysrc.engines.baghchal.game_state import GameState
 
 NUM_GOATS = 20
 
 class BaghChal:
 
-    def __init__(self):
-        self.board = Board()
-        self.turn = 0
-        self.captures = 0
+    def __init__(self, state: GameState = None):
+        if state is None:
+            self.board = Board()
+            self.turn = 0
+            self.captures = 0
+        else:
+            self.board = state.board
+            self.turn = state.turn
+            self.captures = state.captures
 
     def tiger_move(self, s: Position, t: Position):
         if self.is_goat_turn():

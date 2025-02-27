@@ -8,16 +8,16 @@ def initial_board() -> list[list[str]]:
 
 class GameState:
 
-    def __init__(self, board: list[list[str]] = None, turn: int = 0, captured: int = 0):
+    def __init__(self, board: list[list[str]] = None, turn: int = 0, captures: int = 0):
         if board is None:
             board = initial_board()
         self.board = board
         self.turn = turn
-        self.captured = captured
+        self.captures = captures
 
     def serialize(self) -> str:
         board_str = ','.join(list(map(''.join, self.board)))
-        return "{}|{}|{}".format(self.turn, self.captured, board_str)
+        return "{}|{}|{}".format(self.turn, self.captures, board_str)
 
 def deserialize(s: str) -> GameState:
     parts = s.split('|')

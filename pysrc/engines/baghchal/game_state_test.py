@@ -10,7 +10,7 @@ class TestGameState(unittest.TestCase):
         self.assertEqual(gs.board[0][0], 'T')
         self.assertEqual(gs.board[1][0], ' ')
         self.assertEqual(gs.turn, 0)
-        self.assertEqual(gs.captured, 0)
+        self.assertEqual(gs.captures, 0)
 
     def test_serialize(self):
         board = [['G'] * 5 for i in range(5)]
@@ -27,7 +27,7 @@ class TestGameState(unittest.TestCase):
 
         self.assertEqual(res.board, [['T'] * 5 for i in range(5)])
         self.assertEqual(res.turn, 12)
-        self.assertEqual(res.captured, 1)
+        self.assertEqual(res.captures, 1)
 
     def test_roundtrip(self):
         board = [[' '] * 5 for i in range(5)]
@@ -37,7 +37,7 @@ class TestGameState(unittest.TestCase):
 
         self.assertEqual(res.board, gs.board)
         self.assertEqual(res.turn, gs.turn)
-        self.assertEqual(res.captured, gs.captured)
+        self.assertEqual(res.captures, gs.captures)
 
 
 if __name__ == '__main__':
