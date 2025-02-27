@@ -108,8 +108,8 @@ async function getGame() {
 async function move() {
   const game_id = document.getElementById('move-id').value;
   const selected = [
-    document.getElementById('pos1').value,
-    document.getElementById('pos2').value
+    document.getElementById('move-pos1').value,
+    document.getElementById('move-pos2').value
   ]
   const text = await requestWrapper(token =>
     fetch(`/v0/games/baghchal/${game_id}`, {
