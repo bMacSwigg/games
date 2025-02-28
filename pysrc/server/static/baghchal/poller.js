@@ -39,7 +39,6 @@ class Poller {
         this.func.call()
         this.#updateInterval()
         this.timeoutId = setTimeout(() => this.#poll(), this.interval)
-        console.log(`Polled! Next poll in ${this.interval} milliseconds`)
     }
 
     #updateInterval() {
