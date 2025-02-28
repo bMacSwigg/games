@@ -16,6 +16,7 @@ function signInPage() {
 async function mainPage() {
   document.getElementById('signInButton').innerText = 'Sign Out';
   document.getElementById('play-game').style.display = 'none';
+  controlPoller()
 
   const games = await (await listGames()).json()
   const elem = document.getElementById('games-table')
@@ -35,6 +36,7 @@ async function gamePage(id) {
   game_id = id
   await refreshGame()
   document.getElementById('play-game').style.display = '';
+  controlPoller()
 }
 
 // Watch for state change from sign in
@@ -96,10 +98,12 @@ async function displayGame() {
 
 async function refreshGame() {
   const canvas = document.getElementById("game")
-  const json = await (await getGame()).json()
+  const json = await (await getGame(game_id)).json()
 
-  game = new Game(canvas, json.board, json.turn, json.captures, json.winner)
-  game.display()
+  if (!game || json.turn > game.turn) {
+    game = new Game(canvas, json.board, json.turn, json.captures, json.winner)
+    game.display()
+  }
 }
 
 async function playMove() {
@@ -109,7 +113,7 @@ async function playMove() {
 
   // TODO: add validation
   const selected = game.getSelected()
-  const newState = await (await move(selected)).json()
+  const newState = await (await move(selected, game_id)).json()
   game.updateState(newState.board, newState.turn, newState.captures, newState.winner)
   game.display()
 }
@@ -119,67 +123,14 @@ async function newGame() {
   await gamePage(id)
 }
 
-async function requestWrapper(doRequest) {
-  if (firebase.auth().currentUser) {
-    // Retrieve JWT to identify the user to the Identity Platform service.
-    // Returns the current token if it has not expired. Otherwise, this will
-    // refresh the token and return a new one.
-    try {
-      const token = await firebase.auth().currentUser.getIdToken();
-      return doRequest(token)
-    } catch (err) {
-      console.log(`Error calling API: ${err}`);
-      window.alert('Something went wrong... Please try again!');
-    }
+let poller = new Poller(refreshGame)
+function controlPoller() {
+  canvas = document.getElementById("game")
+  if (!document.hidden && canvas.checkVisibility()) {
+    poller.start()
   } else {
-    window.alert('User not signed in.');
+    poller.stop()
   }
 }
+document.addEventListener("visibilitychange", controlPoller);
 
-async function getGame() {
-  return requestWrapper(token =>
-    fetch(`/v0/games/baghchal/${game_id}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }));
-}
-
-async function move(selected) {
-  return requestWrapper(token =>
-    fetch(`/v0/games/baghchal/${game_id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({selected: selected}),
-    }));
-}
-
-async function listGames() {
-  return requestWrapper(token =>
-    fetch('/v0/games/baghchal', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }));
-}
-
-async function createGame() {
-  const game = {
-    tiger: document.getElementById('creategame-tiger').value,
-    goat: document.getElementById('creategame-goat').value,
-  }
-  return requestWrapper(token =>
-    fetch('/v0/games/baghchal', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(game),
-    }));
-}
