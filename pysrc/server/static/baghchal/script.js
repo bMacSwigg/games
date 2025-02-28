@@ -99,6 +99,11 @@ async function displayGame() {
 }
 
 async function refreshGame() {
+  if (game && game.winner != null) {
+    // don't bother refreshing: the game has ended
+    return
+  }
+
   const canvas = document.getElementById("game")
   const json = await getGame(game_id)
 
