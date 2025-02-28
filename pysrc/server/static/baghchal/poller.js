@@ -23,7 +23,9 @@ class Poller {
     }
 
     #poll() {
+        console.log('polling...')
         if (!this.running) {
+            console.log('stopped')
             return
         }
         this.func.call()

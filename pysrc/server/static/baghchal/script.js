@@ -132,6 +132,7 @@ function controlPoller() {
     console.log('starting poller')
     poller.start()
   } else {
+    console.log('stopping poller')
     poller.stop()
   }
 }
