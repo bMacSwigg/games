@@ -1,3 +1,8 @@
+const DUMMY_BOARD = [["T"," "," ","G","T"],[" "," "," "," "," "],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]]
+const DUMMY_GAME = {board: DUMMY_BOARD, captures: 0, turn: 1, goat: "foo", id: "abcdefg", tiger: "bar", winner: null}
+
+const LOCAL = false
+
 async function requestWrapper(doRequest) {
     if (firebase.auth().currentUser) {
       // Retrieve JWT to identify the user to the Identity Platform service.
@@ -15,50 +20,62 @@ async function requestWrapper(doRequest) {
     }
   }
 
-  async function getGame(gid) {
-    return requestWrapper(token =>
-      fetch(`/v0/games/baghchal/${gid}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }));
-  }
+async function getGame(gid) {
+  if (LOCAL) return DUMMY_GAME
 
-  async function move(selected, gid) {
-    return requestWrapper(token =>
-      fetch(`/v0/games/baghchal/${gid}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({selected: selected}),
-      }));
-  }
+  const resp = await requestWrapper(token =>
+    fetch(`/v0/games/baghchal/${gid}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }));
+  return resp.json()
+}
 
-  async function listGames() {
-    return requestWrapper(token =>
-      fetch('/v0/games/baghchal', {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }));
-  }
+async function move(selected, gid) {
+  if (LOCAL) return DUMMY_GAME
 
-  async function createGame() {
-    const game = {
-      tiger: document.getElementById('creategame-tiger').value,
-      goat: document.getElementById('creategame-goat').value,
-    }
-    return requestWrapper(token =>
-      fetch('/v0/games/baghchal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(game),
-      }));
+  const resp = await requestWrapper(token =>
+    fetch(`/v0/games/baghchal/${gid}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({selected: selected}),
+    }));
+  return resp.json()
+}
+
+async function listGames() {
+  if (LOCAL) return [DUMMY_GAME,]
+
+  const resp = await requestWrapper(token =>
+    fetch('/v0/games/baghchal', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }));
+  return resp.json()
+}
+
+async function createGame() {
+  if (LOCAL) return DUMMY_GAME.id
+
+  const game = {
+    tiger: document.getElementById('creategame-tiger').value,
+    goat: document.getElementById('creategame-goat').value,
   }
+  const resp = await requestWrapper(token =>
+    fetch('/v0/games/baghchal', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(game),
+    }));
+  return resp.text()
+}

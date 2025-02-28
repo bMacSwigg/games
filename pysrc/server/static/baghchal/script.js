@@ -18,7 +18,7 @@ async function mainPage() {
   document.getElementById('play-game').style.display = 'none';
   controlPoller()
 
-  const games = await (await listGames()).json()
+  const games = await listGames()
   const elem = document.getElementById('games-table')
   elem.innerHTML = "<tr><th>Tiger</th><th>Goat</th></tr>"
   for (const [i, game] of games.entries()) {
@@ -100,11 +100,13 @@ async function displayGame() {
 
 async function refreshGame() {
   const canvas = document.getElementById("game")
-  const json = await (await getGame(game_id)).json()
+  const json = await getGame(game_id)
 
   if (!game || json.turn > game.turn) {
     game = new Game(canvas, json.board, json.turn, json.captures, json.winner)
     game.display()
+    // on a successful update, reset the poller
+    poller.reset()
   }
 }
 
@@ -115,13 +117,13 @@ async function playMove() {
 
   // TODO: add validation
   const selected = game.getSelected()
-  const newState = await (await move(selected, game_id)).json()
+  const newState = await move(selected, game_id)
   game.updateState(newState.board, newState.turn, newState.captures, newState.winner)
   game.display()
 }
 
 async function newGame() {
-  const id = await (await createGame()).text()
+  const id = await createGame()
   await gamePage(id)
 }
 
