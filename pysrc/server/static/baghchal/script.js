@@ -34,6 +34,7 @@ async function mainPage() {
 async function gamePage(id) {
   document.getElementById('list-games').style.display = 'none';
   game_id = id
+  game = null // force refresh
   await refreshGame()
   document.getElementById('play-game').style.display = '';
   controlPoller()
@@ -93,6 +94,7 @@ function toggle() {
 
 async function displayGame() {
   game_id = document.getElementById('getgame-id').value;
+  game = null // force a refresh
   await refreshGame()
 }
 
