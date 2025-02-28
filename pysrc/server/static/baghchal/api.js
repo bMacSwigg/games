@@ -1,5 +1,6 @@
 const DUMMY_BOARD = [["T"," "," ","G","T"],[" "," "," "," "," "],[" "," "," "," "," "],[" "," "," "," "," "],["T"," "," "," ","T"]]
-const DUMMY_GAME = {board: DUMMY_BOARD, captures: 0, turn: 1, goat: "foo", id: "abcdefg", tiger: "bar", winner: null}
+const DUMMY_GAME = {board: DUMMY_BOARD, captures: 0, turn: 2, goat: "foo", id: "abcdefg", tiger: "bar", winner: null}
+const DUMMY_GAME2 = {board: DUMMY_BOARD, captures: 5, turn: 11, goat: "foo", id: "abcdefg", tiger: "bar", winner: 'TIGER'}
 
 const LOCAL = false
 
@@ -49,7 +50,7 @@ async function move(selected, gid) {
 }
 
 async function listGames() {
-  if (LOCAL) return [DUMMY_GAME,]
+  if (LOCAL) return [DUMMY_GAME,DUMMY_GAME2]
 
   const resp = await requestWrapper(token =>
     fetch('/v0/games/baghchal', {

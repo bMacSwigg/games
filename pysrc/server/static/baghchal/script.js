@@ -18,17 +18,34 @@ async function mainPage() {
   document.getElementById('play-game').style.display = 'none';
   controlPoller()
 
-  const games = await listGames()
+  const games = sortGames(await listGames())
   const elem = document.getElementById('games-table')
   elem.innerHTML = "<tr><th>Tiger</th><th>Goat</th></tr>"
   for (const [i, game] of games.entries()) {
     const row = elem.insertRow(i+1)
-    row.insertCell(0).innerHTML = game.tiger
-    row.insertCell(1).innerHTML = game.goat
-    row.insertCell(2).innerHTML = `<button onclick="gamePage('${game.id}')">Play!</button>`
+    buildRow(row, game)
   }
 
   document.getElementById('list-games').style.display = '';
+}
+
+function buildRow(row, game) {
+  if (game.winner === 'TIGER' || game.turn % 2 === 1) {
+    // Tiger has won, or it's the Tiger's turn
+    row.insertCell(0).innerHTML = `<i>${game.tiger}</i>`
+    row.insertCell(1).innerHTML = game.goat
+  } else {
+    // Goat has won, or it's the Goat's turn
+    row.insertCell(0).innerHTML = game.tiger
+    row.insertCell(1).innerHTML = `<i>${game.goat}</i>`
+  }
+
+  if (game.winner == null) {
+    row.insertCell(2).innerHTML = `<button onclick="gamePage('${game.id}')">Play!</button>`
+  } else {
+    row.insertCell(2).innerHTML = `<button onclick="gamePage('${game.id}')">View</button>`
+  }
+
 }
 
 async function gamePage(id) {
@@ -90,6 +107,27 @@ function toggle() {
   } else {
     signOut();
   }
+}
+
+function sortGames(games) {
+  const partitioned = games.reduce((acc, g) => {
+    let type
+    if (g.winner != null) {
+      type = 'complete'
+    } else {
+      const turn = (g.turn % 2 === 0) ? 'goat' : 'tiger'
+      // const user = firebase.auth().currentUser.email
+      const user = 'foo'
+      if (g[turn] === user) {
+        type = 'your_turn'
+      } else {
+        type = 'waiting'
+      }
+    }
+    acc[type].push(g)
+    return acc
+  }, {'complete': [], 'your_turn': [], 'waiting': []})
+  return partitioned['your_turn'].concat(partitioned['waiting']).concat(partitioned['complete'])
 }
 
 async function displayGame() {
