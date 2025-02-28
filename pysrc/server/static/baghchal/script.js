@@ -129,6 +129,7 @@ let poller = new Poller(refreshGame)
 function controlPoller() {
   canvas = document.getElementById("game")
   if (!document.hidden && canvas.checkVisibility()) {
+    console.log('starting poller')
     poller.start()
   } else {
     poller.stop()
