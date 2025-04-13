@@ -14,14 +14,8 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideFirebaseApp(() => initializeApp(
       {
-        "projectId":"run-web",
-        "appId":"1:869102415447:web:901c77dbd484546ffbbd12",
-        "storageBucket":"run-web.firebasestorage.app",
-        "locationId":"us-east4",
         "apiKey":"AIzaSyBSddNDgpm35qH-xkMJiDzxY8FeO5DP9sg",
         "authDomain":"run-web.firebaseapp.com",
-        "messagingSenderId":"869102415447",
-        "measurementId":"G-09CQHCF9VF"
       })),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
