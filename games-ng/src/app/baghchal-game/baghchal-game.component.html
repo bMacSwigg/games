@@ -1,1 +1,8 @@
-<p>baghchal-game works!</p>
+<div class="container" id="display">
+  Game: {{ gameId }}
+  <h3>Turn: <span id="turn"></span></h3>
+  <h3>Captures: <span id="captures"></span></h3>
+  <canvas #game width=450 height=450></canvas>
+  <button onclick="refreshGame()">Refresh</button>
+  <button onclick="playMove()">Play</button>
+</div>

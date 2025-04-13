@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
+import { BaghChal } from './interfaces/baghchal';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class GamesService {
 
   constructor(private auth: AuthService) { }
 
-  async listGames(): Promise<Object[]> {
+  async listGames(): Promise<BaghChal[]> {
     const token = await this.auth.token();
     if (!token) {
       console.log('no token');
@@ -33,5 +34,31 @@ export class GamesService {
       console.log(`Error when fetching games: ${err}`);
     }
     return [];
+  }
+
+  async getGame(game_id: string): Promise<BaghChal | null> {
+    const token = await this.auth.token();
+    if (!token) {
+      console.log('no token');
+      return null;
+    }
+
+    try {
+      let url = `${this.baseUrl}/v0/games/baghchal/${game_id}`;
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log(`Non-ok response when fetching games: ${response.status}`);
+      }
+    } catch (err) {
+      console.log(`Error when fetching games: ${err}`);
+    }
+    return null;
   }
 }
