@@ -1,19 +1,37 @@
 <table mat-table [dataSource]="gamesList">
   <ng-container matColumnDef="tiger">
     <th mat-header-cell *matHeaderCellDef> Tiger </th>
-    <td mat-cell *matCellDef="let game"> {{game.tiger}} </td>
+    <td mat-cell *matCellDef="let game">
+      {{game.tiger}}
+      @if (game.winner === null && game.turn % 2 === 1) {
+        <mat-icon class="material-symbols-outlined">chess</mat-icon>
+      } @else if (game.winner === "TIGER") {
+        <mat-icon class="material-symbols-outlined">trophy</mat-icon>
+      }
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="goat">
     <th mat-header-cell *matHeaderCellDef> Goat </th>
-    <td mat-cell *matCellDef="let game"> {{game.goat}} </td>
+    <td mat-cell *matCellDef="let game">
+      {{game.goat}}
+      @if (game.winner === null && game.turn % 2 === 0) {
+        <mat-icon class="material-symbols-outlined">chess</mat-icon>
+      } @else if (game.winner === "GOAT") {
+        <mat-icon class="material-symbols-outlined">trophy</mat-icon>
+      }
+    </td>
   </ng-container>
 
   <ng-container matColumnDef="action">
     <th mat-header-cell *matHeaderCellDef></th>
     <td mat-cell *matCellDef="let game">
       <button mat-raised-button [routerLink]="['/baghchal/', game.id]">
-        Play/View
+        @if (game.winner === null) {
+          Play!
+        } @else {
+          View
+        }
       </button>
     </td>
   </ng-container>
