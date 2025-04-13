@@ -1,1 +1,23 @@
-<p>baghchal-list works!</p>
+<table mat-table [dataSource]="gamesList">
+  <ng-container matColumnDef="tiger">
+    <th mat-header-cell *matHeaderCellDef> Tiger </th>
+    <td mat-cell *matCellDef="let game"> {{game.tiger}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="goat">
+    <th mat-header-cell *matHeaderCellDef> Goat </th>
+    <td mat-cell *matCellDef="let game"> {{game.goat}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="action">
+    <th mat-header-cell *matHeaderCellDef></th>
+    <td mat-cell *matCellDef="let game">
+      <button mat-raised-button [routerLink]="['/baghchal/', game.id]">
+        Play/View
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+</table>
