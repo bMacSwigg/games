@@ -29,6 +29,25 @@ export class BaghchalGameComponent {
     this.ctrl.display();
   }
 
+  async playMove() {
+    if (!this.game || !this.ctrl) {
+      return;
+    }
+    if (this.game.winner !== null) {
+      return;
+    }
+
+    // TODO: add validation
+    const selected = this.ctrl.getSelected();
+    const newState = await this.gamesService.move(selected, this.gameId);
+    this.game.board = newState.board;
+    this.game.turn = newState.turn;
+    this.game.captures = newState.captures;
+    this.game.winner = newState.winner;
+    this.ctrl.clearSelected();
+    this.ctrl.display();
+  }
+
   turnColor(): string {
     if (!this.game) {
       return "";

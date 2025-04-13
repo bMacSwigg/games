@@ -61,4 +61,32 @@ export class GamesService {
     }
     return null;
   }
+
+  async move(selected: string[], game_id: string) {
+    const token = await this.auth.token();
+    if (!token) {
+      console.log('no token');
+      return null;
+    }
+
+    try {
+      let url = `${this.baseUrl}/v0/games/baghchal/${game_id}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({selected: selected}),
+      });
+      if (response.ok) {
+        return response.json();
+      } else {
+        console.log(`Non-ok response when playing move: ${response.status}`);
+      }
+    } catch (err) {
+      console.log(`Error when playing move: ${err}`);
+    }
+    return null;
+  }
 }

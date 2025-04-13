@@ -4,5 +4,5 @@
   <h4>Captures: {{ game?.captures }}</h4>
   <canvas #canvas width=450 height=450></canvas>
   <button onclick="refreshGame()">Refresh</button>
-  <button onclick="playMove()">Play</button>
+  <button (click)="playMove()">Play</button>
 </div>

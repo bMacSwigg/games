@@ -39,11 +39,7 @@ export class BaghchalController {
     return Array.from(this.selected);
   }
 
-  updateState(board: string[][], turn: number, captures: number, winner: 'TIGER'|'GOAT'|null = null) {
-    this.game.board = board;
-    this.game.turn = turn;
-    this.game.captures = captures;
-    this.game.winner = winner;
+  clearSelected() {
     this.selected.clear();
   }
 
