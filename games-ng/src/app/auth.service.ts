@@ -38,6 +38,7 @@ export class AuthService {
   }
 
   async token() {
+    await this.auth.authStateReady();
     const user = this.auth.currentUser;
     if (!user) {
       return null;
