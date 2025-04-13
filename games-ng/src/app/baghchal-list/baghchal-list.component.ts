@@ -17,10 +17,6 @@ export class BaghchalListComponent {
   gamesService: GamesService = inject(GamesService);
 
   constructor() {
-    this.load();
-  }
-
-  load() {
     this.gamesService.listGames().then(games => {
       this.gamesList = games;
     });
