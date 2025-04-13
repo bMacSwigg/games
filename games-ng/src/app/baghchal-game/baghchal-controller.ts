@@ -1,23 +1,18 @@
 import { ElementRef } from '@angular/core';
+import { BaghChal } from '../interfaces/baghchal';
 
 export class BaghchalController {
   canvas: ElementRef;
   ctx: CanvasRenderingContext2D;
   displayed: boolean;
-  board: string[][];
-  turn: number;
-  captures: number;
-  winner: string | null;
+  game: BaghChal;
   selected: Set<string>;
 
-  constructor(canvas: ElementRef, board: string[][], turn = 0, captures = 0, winner: string|null = null) {
+  constructor(canvas: ElementRef, game: BaghChal) {
     this.canvas = canvas;
     this.ctx = canvas.nativeElement.getContext("2d");
     this.displayed = false;
-    this.board = board;
-    this.turn = turn;
-    this.captures = captures;
-    this.winner = winner;
+    this.game = game
     this.selected = new Set();
   }
 
@@ -26,8 +21,7 @@ export class BaghchalController {
     this.#drawBoard();
     this.#drawSelected();
     this.#drawPieces();
-    this.#updateMetadata();
-    if (this.winner != null) {
+    if (this.game.winner != null) {
       this.#drawWinner();
     }
 
@@ -42,14 +36,14 @@ export class BaghchalController {
   }
 
   getSelected(): string[] {
-    return [...this.selected];
+    return Array.from(this.selected);
   }
 
-  updateState(board: string[][], turn: number, captures: number, winner: string|null = null) {
-    this.board = board;
-    this.turn = turn;
-    this.captures = captures;
-    this.winner = winner;
+  updateState(board: string[][], turn: number, captures: number, winner: 'TIGER'|'GOAT'|null = null) {
+    this.game.board = board;
+    this.game.turn = turn;
+    this.game.captures = captures;
+    this.game.winner = winner;
     this.selected.clear();
   }
 
@@ -58,7 +52,7 @@ export class BaghchalController {
 
     // TODO: this is a lot of canvas.nativeElement... more Angular-y way to do this?
     this.canvas.nativeElement.addEventListener('click', function(event: any) {
-      if (self.winner != null) {
+      if (self.game.winner != null) {
         return;
       }
 
@@ -126,7 +120,7 @@ export class BaghchalController {
     for(let y = 0; y < 5; y++) {
       const yoffset = y * 100 + 10;
       for(let x = 0; x < 5; x++) {
-        const piece = this.board[y][x];
+        const piece = this.game.board[y][x];
         if (piece === ' ') {
           continue;
         }
@@ -142,22 +136,6 @@ export class BaghchalController {
         this.ctx.fillRect(xoffset, yoffset, 30, 30);
       }
     }
-  }
-
-  #updateMetadata() {
-    // TODO: make this more Angular-y
-    const turn = document.getElementById("turn")!;
-    if (this.turn % 2 === 0) {
-      turn.innerText = "GOAT";
-      turn.style.color = "#0000FF";
-    } else {
-      turn.innerText = "TIGER";
-      turn.style.color = "#FF0000";
-    }
-
-    // TODO: make this more Angular-y
-    const captures = document.getElementById("captures");
-    captures!.innerText = this.captures.toString();
   }
 
   #drawSelected() {
@@ -176,7 +154,7 @@ export class BaghchalController {
     this.ctx.fillRect(0, 0, 450, 450);
 
     this.ctx.globalAlpha = 1.0;
-    if (this.winner === 'TIGER') {
+    if (this.game.winner === 'TIGER') {
       this.ctx.fillStyle = "#FF0000";
     } else {
       this.ctx.fillStyle = "#0000FF";
@@ -184,7 +162,7 @@ export class BaghchalController {
     this.ctx.textAlign = 'center';
     this.ctx.textBaseline = 'middle';
     this.ctx.font = '50px serif';
-    this.ctx.fillText(`${this.winner} wins!`, 225, 225);
+    this.ctx.fillText(`${this.game.winner} wins!`, 225, 225);
   }
 
   #parsePos(pos: string): number[] {
