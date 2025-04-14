@@ -1,8 +1,8 @@
+<button mat-raised-button [routerLink]="'/baghchal/'"><mat-icon>arrow_back</mat-icon>Return to List</button>
 <div class="container" id="display">
-  Game: {{ gameId }}
   <h4>Turn: <span style='color:{{ turnColor() }}'>{{ turn() }}</span></h4>
   <h4>Captures: {{ game?.captures }}</h4>
   <canvas #canvas width=450 height=450></canvas>
-  <button onclick="refreshGame()">Refresh</button>
-  <button (click)="playMove()">Play</button>
+  <button mat-raised-button onclick="refreshGame()">Refresh</button>
+  <button mat-raised-button (click)="playMove()">Play</button>
 </div>

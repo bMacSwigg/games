@@ -1,0 +1,13 @@
+canvas {
+  background: #eee;
+  display: block;
+  margin: 0 auto;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.container {
+  width: 450px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

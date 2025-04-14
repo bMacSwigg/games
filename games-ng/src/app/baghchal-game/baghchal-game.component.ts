@@ -1,4 +1,7 @@
 import { Component, inject, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { GamesService } from '../games.service';
 import { BaghChal } from '../interfaces/baghchal';
 import { BaghchalController } from './baghchal-controller';
@@ -6,7 +9,7 @@ import { BaghchalController } from './baghchal-controller';
 @Component({
   selector: 'app-baghchal-game',
   standalone: true,
-  imports: [],
+  imports: [MatButtonModule, MatIconModule, RouterModule],
   templateUrl: './baghchal-game.component.html',
   styleUrl: './baghchal-game.component.css'
 })
