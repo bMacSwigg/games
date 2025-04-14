@@ -1,0 +1,12 @@
+<div>
+  <p>
+    Welcome!
+  </p>
+  @if (!authService.authenticated()) {
+  <p>To enjoy the games on this site, please first sign in with a Google account.</p>
+  <button mat-raised-button (click)="authService.signIn()"><mat-icon>login</mat-icon>Sign In</button>
+  } @else {
+  <p>Enjoy the games!</p>
+  <button mat-raised-button [routerLink]="'/baghchal/'">Bagh-Chal</button>
+  }
+</div>
