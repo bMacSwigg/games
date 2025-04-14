@@ -46,4 +46,14 @@ export class AuthService {
       return getIdToken(user);
     }
   }
+
+  async user(): Promise<string | null> {
+    await this.auth.authStateReady();
+    const user = this.auth.currentUser;
+    if (!user) {
+      return null;
+    } else {
+      return user.email;
+    }
+  }
 }

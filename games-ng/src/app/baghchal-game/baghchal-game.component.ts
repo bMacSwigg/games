@@ -2,6 +2,7 @@ import { Component, inject, Input, OnInit, ViewChild, ElementRef } from '@angula
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { AuthService } from '../auth.service';
 import { GamesService } from '../games.service';
 import { BaghChal } from '../interfaces/baghchal';
 import { BaghchalController } from './baghchal-controller';
@@ -18,8 +19,10 @@ export class BaghchalGameComponent {
   @ViewChild('canvas', { static: false }) canvas!: ElementRef;
   gamesList: Object[] = [];
   gamesService: GamesService = inject(GamesService);
+  authService: AuthService = inject(AuthService);
   game: BaghChal | undefined;
   ctrl: BaghchalController | undefined;
+  opponent: string | undefined;
 
   async ngOnInit() {
     const game = await this.gamesService.getGame(this.gameId);
@@ -30,6 +33,13 @@ export class BaghchalGameComponent {
     this.game = game
     this.ctrl = new BaghchalController(this.canvas, game);
     this.ctrl.display();
+
+    const user = await this.authService.user();
+    if (game.tiger.toLowerCase() === user?.toLowerCase()) {
+      this.opponent = game.goat;
+    } else {
+      this.opponent = game.tiger;
+    }
   }
 
   async playMove() {
