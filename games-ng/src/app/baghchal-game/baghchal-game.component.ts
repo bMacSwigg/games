@@ -35,10 +35,12 @@ export class BaghchalGameComponent {
     this.ctrl.display();
 
     const user = await this.authService.user();
-    if (game.tiger.toLowerCase() === user?.toLowerCase()) {
-      this.opponent = game.goat;
+    if (game.tiger.toLowerCase() === game.goat.toLowerCase()) {
+      this.opponent = "You are playing TIGER and GOAT against yourself";
+    } else if (game.tiger.toLowerCase() === user?.toLowerCase()) {
+      this.opponent = "You are the TIGER vs " + game.goat;
     } else {
-      this.opponent = game.tiger;
+      this.opponent = "You are the GOAT vs " + game.tiger;
     }
   }
 
