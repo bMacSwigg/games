@@ -89,4 +89,32 @@ export class GamesService {
     }
     return null;
   }
+
+  async createGame(tiger: string, goat: string) {
+    const token = await this.auth.token();
+    if (!token) {
+      console.log('no token');
+      return null;
+    }
+
+    try {
+      let url = `${this.baseUrl}/v0/games/baghchal`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({tiger: tiger, goat: goat}),
+      });
+      if (response.ok) {
+        return response.text();
+      } else {
+        console.log(`Non-ok response when creating game: ${response.status}`);
+      }
+    } catch (err) {
+      console.log(`Error when creating game: ${err}`);
+    }
+    return null;
+  }
 }

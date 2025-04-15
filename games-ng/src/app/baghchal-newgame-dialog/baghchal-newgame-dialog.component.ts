@@ -6,6 +6,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 import { merge } from 'rxjs';
 import { GamesService } from '../games.service';
 
@@ -22,6 +23,7 @@ export class BaghchalNewgameDialogComponent {
   tigerError = signal('');
   goatError = signal('');
   gamesService: GamesService = inject(GamesService);
+  router: Router = inject(Router);
 
   constructor(private dialogRef: MatDialogRef<BaghchalNewgameDialogComponent>) {
     merge(this.tiger.statusChanges, this.tiger.valueChanges)
@@ -46,12 +48,19 @@ export class BaghchalNewgameDialogComponent {
     this.dialogRef.close();
   }
 
-  create() {
-    if (this.tiger.invalid || this.goat.invalid) {
+  async create() {
+    if (this.tiger.invalid || !this.tiger.value || this.goat.invalid || !this.goat.value) {
       console.log("invalid values");
       return;
     }
-    console.log(this.tiger.value);
-    console.log(this.goat.value);
+
+    const game = await this.gamesService.createGame(this.tiger.value, this.goat.value);
+    if (!game) {
+      console.log("failed to create game");
+      return;
+    }
+
+    this.dialogRef.close();
+    this.router.navigate(['/baghchal/', game]);
   }
 }
