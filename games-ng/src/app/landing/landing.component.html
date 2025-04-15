@@ -1,6 +1,8 @@
 <div>
   <p>
-    Welcome!
+    Welcome to my games site! Right now it only has one game
+    (<a href="https://en.wikipedia.org/wiki/Bagh-chal">Bagh-Chal</a>).
+    Maybe in the future it will have more.
   </p>
   @if (!authService.authenticated()) {
   <p>To enjoy the games on this site, please first sign in with a Google account.</p>
@@ -9,4 +11,13 @@
   <p>Enjoy the games!</p>
   <button mat-raised-button [routerLink]="'/baghchal/'">Bagh-Chal</button>
   }
+  <p>
+    This website was created by Brian McSwiggen. The frontend is Angular TypeScript,
+    and the backend is in Python with Flask. Both frontend and backend are running
+    on GCP. You can find the GitHub repository
+    <a href="https://github.com/bMacSwigg/games">here</a>. My personal website, with
+    other things I've made and projects I've worked on, lives at
+    <a href="https://www.mcswiggen.me">www.mcswiggen.me</a>. If you want to get in
+    touch, you can reach me at brian (at) mcswiggen (dot) me.
+  </p>
 </div>

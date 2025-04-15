@@ -4,3 +4,11 @@ div {
   justify-items: center;
   align-items: center;
 }
+p {
+  width: 60%;
+  max-width: 900px;
+  text-align: center;
+}
+button {
+  margin-bottom: 12px;
+}
