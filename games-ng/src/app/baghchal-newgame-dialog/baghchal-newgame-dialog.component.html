@@ -7,14 +7,30 @@
   </p>
   <mat-form-field appearance="outline">
     <mat-label>Tiger</mat-label>
-    <input matInput [(ngModel)]="tiger">
+    <input
+      matInput
+      [formControl]="tiger"
+      (blur)="updateErrorMessage(tiger, tigerError)"
+      required
+    />
+    @if (tiger.invalid) {
+      <mat-error>{{tigerError()}}</mat-error>
+    }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Goat</mat-label>
-    <input matInput [(ngModel)]="goat">
+    <input
+      matInput
+      [formControl]="goat"
+      (blur)="updateErrorMessage(goat, goatError)"
+      required
+    />
+    @if (goat.invalid) {
+      <mat-error>{{goatError()}}</mat-error>
+    }
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
   <button mat-stroked-button (click)="cancel()">Cancel</button>
-  <button mat-flat-button (click)="create()">Create</button>
+  <button mat-flat-button [disabled]="tiger.invalid || goat.invalid" (click)="create()">Create</button>
 </div>

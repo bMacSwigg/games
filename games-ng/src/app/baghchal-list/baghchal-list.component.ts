@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { GamesService } from '../games.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { GamesService } from '../games.service';
 import { BaghchalNewgameDialogComponent } from '../baghchal-newgame-dialog/baghchal-newgame-dialog.component';
 
 @Component({
