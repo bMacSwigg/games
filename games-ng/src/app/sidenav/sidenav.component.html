@@ -4,6 +4,6 @@
 <button *ngIf="!authService.authenticated()" mat-button (click)="authService.signIn()">
   Sign In
 </button>
-<button *ngIf="authService.authenticated()" mat-button (click)="authService.signOut()">
+<button *ngIf="authService.authenticated()" mat-button (click)="signOut()">
   Sign Out
 </button>

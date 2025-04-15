@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -14,4 +14,10 @@ import { AuthService } from '../auth.service';
 })
 export class SidenavComponent {
   authService: AuthService = inject(AuthService);
+  router: Router = inject(Router);
+
+  signOut() {
+    this.authService.signOut();
+    this.router.navigate(['']);
+  }
 }
