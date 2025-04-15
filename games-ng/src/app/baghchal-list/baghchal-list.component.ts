@@ -1,9 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { GamesService } from '../games.service';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { BaghchalNewgameDialogComponent } from '../baghchal-newgame-dialog/baghchal-newgame-dialog.component';
 
 @Component({
   selector: 'app-baghchal-list',
@@ -17,9 +19,13 @@ export class BaghchalListComponent {
   gamesList: Object[] = [];
   gamesService: GamesService = inject(GamesService);
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.gamesService.listGames().then(games => {
       this.gamesList = games;
     });
+  }
+
+  openNewGameDialog() {
+    const dialogRef = this.dialog.open(BaghchalNewgameDialogComponent, {});
   }
 }
