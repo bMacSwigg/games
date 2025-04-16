@@ -13,6 +13,7 @@ from server.thirdparty.middleware import jwt_authenticated
 app = Flask(__name__)
 _ORIGINS = ["http://localhost:4200",
             "https://games-869102415447.us-central1.run.app",
+            "https://games-ui-869102415447.us-central1.run.app",
             "https://games.mcswiggen.me"]
 CORS(app, resources={r"*": {"origins": _ORIGINS}})
 
