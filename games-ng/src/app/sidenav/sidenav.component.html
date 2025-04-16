@@ -1,0 +1,13 @@
+<mat-nav-list>
+  @if (authService.authenticated()) {
+  <a mat-list-item routerLink="baghchal">Bagh-Chal</a>
+  <mat-divider></mat-divider>
+  }
+  <a mat-list-item routerLink="">About</a>
+</mat-nav-list>
+<button *ngIf="!authService.authenticated()" mat-button (click)="authService.signIn()">
+  Sign In
+</button>
+<button *ngIf="authService.authenticated()" mat-button (click)="signOut()">
+  Sign Out
+</button>

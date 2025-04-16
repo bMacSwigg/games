@@ -1,0 +1,14 @@
+<main class="main">
+  <mat-sidenav-container class="container">
+    <mat-sidenav #sidenav mode="over">
+      <app-sidenav></app-sidenav>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <app-header [sidenav]="sidenav"></app-header>
+      <section class="content">
+        <router-outlet></router-outlet>
+      </section>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</main>

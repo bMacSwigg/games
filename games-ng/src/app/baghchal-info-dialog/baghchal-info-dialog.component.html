@@ -1,0 +1,42 @@
+<h1 mat-dialog-title>Bagh-chal</h1>
+<div mat-dialog-content>
+  <p>
+    <a href="https://en.wikipedia.org/wiki/Bagh-chal">Bagh-chal</a>, also known
+    as "Tigers and Goats", is an asymmetric two-player board game from Nepal.
+    One player controls the four <span class="tiger">Tigers</span>, while the
+    other player controls up to twenty <span class="goat">Goats</span>.
+  </p>
+  <mat-divider></mat-divider>
+  <p>
+    The <span class="tiger">Tigers</span> start in the four corners of the
+    board. On their turn, the player can move a
+    <span class="tiger">Tiger</span> to an empty adjacent space (connected by a
+    line), or jump over an adjacent <span class="goat">Goat</span> to an
+    empty space, thereby capturing the <span class="goat">Goat</span>.
+  </p>
+  <p>
+    The <span class="tiger">Tigers'</span> goal is to capture 5
+    <span class="goat">Goats</span> by jumping over them.
+  </p>
+  <mat-divider></mat-divider>
+  <p>
+    The <span class="goat">Goats</span> start with no pieces on the board.
+    On each turn for the first 20 turns, the player must place a new
+    <span class="goat">Goat</span> in an empty space on the board. After all 20
+    <span class="goat">Goats</span> have been placed, the player must instead
+    move a piece on each turn to an empty adjacent space (connected by a line).
+  </p>
+  <p>
+    The <span class="goat">Goats'</span> goal is to trap all four
+    <span class="tiger">Tigers</span>, so that they have no available moves.
+  </p>
+  <mat-divider></mat-divider>
+  <p>
+    On your turn, select the space(s) where you wish to move/place your piece,
+    then click the "Play" button. Select (or deselect) spaces by clicking on
+    them.
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="close()">Close</button>
+</div>

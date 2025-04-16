@@ -1,0 +1,42 @@
+canvas {
+  background: #eee;
+  display: block;
+  margin: 0 auto;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.goat {
+  color: #0000FF;
+}
+.tiger {
+  color: #FF0000;
+}
+
+.container {
+  width: 450px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 16px;
+  button {
+    width: 80%;
+  }
+  .center {
+    justify-self: center;
+    margin-right: 4px;
+    margin-left: 4px;
+    margin-top: 16px;
+  }
+}
+
+.top {
+  width: 450px;
+  margin-left: 16px;
+  display: flex;
+  justify-content: center;
+  button {
+    margin-left: 4px;
+    margin-right: 4px;
+  }
+}
+
