@@ -6,6 +6,13 @@ canvas {
   grid-column-end: 3;
 }
 
+.goat {
+  color: #0000FF;
+}
+.tiger {
+  color: #FF0000;
+}
+
 .container {
   width: 450px;
   display: grid;
