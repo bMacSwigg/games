@@ -1,7 +1,7 @@
 <div class="top">
   <button mat-icon-button [routerLink]="'/baghchal/'"><mat-icon>arrow_back</mat-icon></button>
   <h4>Bagh-Chal</h4>
-  <button mat-icon-button><mat-icon>info</mat-icon></button>
+  <button mat-icon-button (click)="openInfoDialog()"><mat-icon>info</mat-icon></button>
 </div>
 <div class="top">
   <i>{{ opponent }}</i>

@@ -26,6 +26,6 @@ export class BaghchalListComponent {
   }
 
   openNewGameDialog() {
-    const dialogRef = this.dialog.open(BaghchalNewgameDialogComponent, {});
+    this.dialog.open(BaghchalNewgameDialogComponent, {});
   }
 }

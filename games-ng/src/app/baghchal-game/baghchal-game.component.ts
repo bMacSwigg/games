@@ -1,10 +1,12 @@
 import { Component, inject, Input, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { GamesService } from '../games.service';
 import { BaghChal } from '../interfaces/baghchal';
+import { BaghchalInfoDialogComponent } from '../baghchal-info-dialog/baghchal-info-dialog.component';
 import { BaghchalController } from './baghchal-controller';
 import { Poller } from './poller';
 
@@ -25,6 +27,8 @@ export class BaghchalGameComponent implements OnDestroy {
   ctrl: BaghchalController | undefined;
   poller: Poller | undefined;
   opponent: string | undefined;
+
+  constructor(private dialog: MatDialog) {}
 
   async ngOnInit() {
     const game = await this.gamesService.getGame(this.gameId);
@@ -105,7 +109,11 @@ export class BaghchalGameComponent implements OnDestroy {
     }
   }
 
+  openInfoDialog() {
+    this.dialog.open(BaghchalInfoDialogComponent, {});
+  }
+
   ngOnDestroy() {
     this.poller?.stop();
- }
+  }
 }
