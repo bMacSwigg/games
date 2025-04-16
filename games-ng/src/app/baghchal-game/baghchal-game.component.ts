@@ -63,15 +63,25 @@ export class BaghchalGameComponent {
     this.ctrl.display();
   }
 
-  turnColor(): string {
-    if (!this.game) {
-      return "";
+  async refresh() {
+    if (this.game && this.game.winner != null) {
+      // don't bother refreshing: the game has ended
+      return
     }
 
-    if (this.game.turn % 2 === 0) {
-      return "#0000FF";
-    } else {
-      return "#FF0000";
+    const newState = await this.gamesService.getGame(this.gameId);
+    if (!newState) {
+      console.log("failed to refresh game");
+      return;
+    }
+
+    if (this.game && newState.turn > this.game.turn) {
+      this.game.board = newState.board!;
+      this.game.turn = newState.turn;
+      this.game.captures = newState.captures;
+      this.game.winner = newState.winner;
+      this.ctrl!.clearSelected();
+      this.ctrl!.display();
     }
   }
 
