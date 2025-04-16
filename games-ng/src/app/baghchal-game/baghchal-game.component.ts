@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, inject, Input, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
@@ -6,6 +6,7 @@ import { AuthService } from '../auth.service';
 import { GamesService } from '../games.service';
 import { BaghChal } from '../interfaces/baghchal';
 import { BaghchalController } from './baghchal-controller';
+import { Poller } from './poller';
 
 @Component({
   selector: 'app-baghchal-game',
@@ -14,7 +15,7 @@ import { BaghchalController } from './baghchal-controller';
   templateUrl: './baghchal-game.component.html',
   styleUrl: './baghchal-game.component.css'
 })
-export class BaghchalGameComponent {
+export class BaghchalGameComponent implements OnDestroy {
   @Input() gameId!: string;
   @ViewChild('canvas', { static: false }) canvas!: ElementRef;
   gamesList: Object[] = [];
@@ -22,6 +23,7 @@ export class BaghchalGameComponent {
   authService: AuthService = inject(AuthService);
   game: BaghChal | undefined;
   ctrl: BaghchalController | undefined;
+  poller: Poller | undefined;
   opponent: string | undefined;
 
   async ngOnInit() {
@@ -42,6 +44,8 @@ export class BaghchalGameComponent {
     } else {
       this.opponent = "You are the GOAT vs " + game.tiger;
     }
+
+    this.poller = new Poller(() => this.refresh());
   }
 
   async playMove() {
@@ -63,16 +67,16 @@ export class BaghchalGameComponent {
     this.ctrl.display();
   }
 
-  async refresh() {
+  async refresh(): Promise<boolean> {
     if (this.game && this.game.winner != null) {
       // don't bother refreshing: the game has ended
-      return
+      return false;
     }
 
     const newState = await this.gamesService.getGame(this.gameId);
     if (!newState) {
       console.log("failed to refresh game");
-      return;
+      return false;
     }
 
     if (this.game && newState.turn > this.game.turn) {
@@ -82,7 +86,11 @@ export class BaghchalGameComponent {
       this.game.winner = newState.winner;
       this.ctrl!.clearSelected();
       this.ctrl!.display();
+      // on a successful update, reset the poller
+      return true;
     }
+
+    return false;
   }
 
   turn(): string {
@@ -96,4 +104,8 @@ export class BaghchalGameComponent {
       return "TIGER";
     }
   }
+
+  ngOnDestroy() {
+    this.poller?.stop();
+ }
 }
