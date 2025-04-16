@@ -1,0 +1,10 @@
+.goat {
+  color: #0000FF;
+}
+.tiger {
+  color: #FF0000;
+}
+
+mat-divider {
+  margin-bottom: 0.75em;
+}
